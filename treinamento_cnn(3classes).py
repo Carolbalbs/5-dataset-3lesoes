@@ -35,7 +35,7 @@ np.random.seed(2)
 # Configuração
 # ===================================================
 optimizer_name = "adam"   # <- troque aqui para mudar o otimizador
-img_width, img_height = 150, 150
+img_width, img_height = 224, 224
 img_channel = 3
 
 batch_size = 32
@@ -48,8 +48,8 @@ l_r = 0.0001
 # Carregamento do dataset
 # ===================================================
 X, Y, classes, n = load_dataset(
-    "/shared/rna-cnn/dataset/treinamento/output-augumented-perClass",
-    299,
+    "/ana/shared/rna-cnn/5-dataset-3lesoes/treinamento/dataset-augumentado",
+    224,
     shuffle=True
 )
  
@@ -57,7 +57,7 @@ X, Y, classes, n = load_dataset(
 # Diretórios de saída
 # ===================================================
 date_time   = datetime.now().strftime("%d-%m-%Y__%H-%M-%S")
-name        = os.path.join("./", "Resultado", f"Treinamento_{optimizer_name.upper()}_{model_name}_{date_time}")
+name        = os.path.join("/shared", "Resultado", f"Treinamento_{optimizer_name.upper()}_{model_name}_{date_time}")
 path_img    = os.path.join(name, "imgs")
 path_models = os.path.join(name, "models")
 path_tb     = os.path.join(name, "logs_tensorboard")
@@ -159,7 +159,7 @@ def create_model(optmizer_):
     add_model = Sequential([
         Dense(1024, activation='relu',input_shape=base_model.output_shape[1:]),
         Dropout(0.6),
-        Dense(2, activation='softmax')
+        Dense(3, activation='softmax')
     ])
     model = Model(
        inputs=base_model.input,
